@@ -1,4 +1,5 @@
 import javax.crypto.Cipher;
+import java.net.URLDecoder;
 import java.security.Key;
 
 public class EncrypDES {
@@ -165,14 +166,25 @@ public class EncrypDES {
             // 加密
             String msg1 = "PrintParam:appid=953a4d63aeb0ab61c833b28d868e0195&userid=b0f1ecac4929&text=%E8%AE%B2%E4%B8%AA%E7%AC%91%E8%AF%9D&cmd=chat&location=%E6%B7%B1%E5%9C%B3%E5%B8%82";
             EncrypDES des1 = new EncrypDES();// 使用默认密钥
-            System.out.println("加密前的字符：" + msg1);
+//            System.out.println("加密前的字符：" + msg1);
             String encrypt = des1.encrypt(msg1);
-            System.out.println("加密后的字符：" + encrypt);
+//            System.out.println("加密后的字符：" + encrypt);
             System.out.println("=====================================================");
             //解密
-            String msg2 = "9299dc24e7e8c3beff3d05bcec45f568966a78c8d5c174686afc0ef05d28cd9b8a400dffc647113b94b1a3618d77d63c5da20ed4c3f350a430e5199d8bc922502a6f9330223dd0bfe0250d944f0e761451a4019c2f754fe80170733789a32718b861b284611427313b0842cfd72e01e0e9ba480023d123c6cd9b9c678b1a7ffa2441c425794790912a7c619fc51bbf1bab039f9211104654bf1da4309650177f0eac8db22af33f483ed251c812facfe4cadc4d7c82d5a963fce08da3291cf5e3321c5e5d9317f4f8";
-            System.out.println("解密前的字符：" +msg2);
-            System.out.println("解密后的字符：" + des1.decrypt(msg2));
+            String msg2 = "9299dc24e7e8c3beff3d05bcec45f56898237bd82229110ecbd28c65302e8bdb9bdc2dd941650b3333e7be3ba77444118a655f4523aefe808aae9d72d5976d5168d61341987376d3b5215306d39bc9a9d5cb285ed630441952c27fd8a408dd1f7ced52fad2680dd3ae85b0194527923e86a52cfa88aba955ff09240eca15aa4035af2c05c6069653e4b2be0eaac1edf240f9f0fce79dd90f83b10742ab442b926b2302faf2ab3737";
+            System.out.println("解密前的字符：" + msg2);
+            String decrypt = des1.decrypt(msg2);
+            System.out.println("解密后的字符：" + decrypt);
+            System.out.println("=====================================================");
+            decrypt = decrypt.replace("PrintParam:", "");
+            String[] split = decrypt.split("&");
+
+            for (int i = 0; i < split.length; i++) {
+                System.out.println("");
+                String decode = URLDecoder.decode(split[i]);
+                System.out.println(split[i]);
+                System.out.println(decode);
+            }
 
 
             String msg3 = "appid=&userid=28ede01431cd&text=%E4%BB%8A%E5%A4%A9%E5%A4%A9%E6%B0%94%E6%80%8E%E4%B9%88%E6%A0%B7&cmd=chat&location=%E6%B7%B1%E5%9C%B3%E5%B8%82";
