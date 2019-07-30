@@ -1,6 +1,10 @@
 import javax.crypto.Cipher;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.Key;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EncrypDES {
 
@@ -33,6 +37,7 @@ public class EncrypDES {
      */
 
     private static String strDefaultKey = "inventec2017@#$%^&";
+//    private static String strDefaultKey = "danlovecx9999&^%$#";
 
     /**
      * 加密工具
@@ -160,18 +165,39 @@ public class EncrypDES {
         return key;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
+//        args = new String[]{"-mode", "encode", "-str", "阿斯兰的卡三等奖"};
+        System.out.println(Arrays.toString(args));
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < args.length; i += 2) {
+            map.put(args[i], args[i + 1]);
+        }
+
+        String mode = map.getOrDefault("-mode", "null");
+        String str = map.getOrDefault("-str", "");
+
+        str = new String(str.getBytes("utf-8"), "gbk");
+        System.out.println(str);
+        if (mode.equals("encode")) {
+            encode(str);
+            return;
+        } else if (mode.equals("decode")) {
+            decode(str);
+            return;
+        }
+
+        System.out.println("debug");
 
         try {
             // 加密
-            String msg1 = "PrintParam:appid=953a4d63aeb0ab61c833b28d868e0195&userid=b0f1ecac4929&text=%E8%AE%B2%E4%B8%AA%E7%AC%91%E8%AF%9D&cmd=chat&location=%E6%B7%B1%E5%9C%B3%E5%B8%82";
+            String msg1 = "dan116307";
             EncrypDES des1 = new EncrypDES();// 使用默认密钥
 //            System.out.println("加密前的字符：" + msg1);
             String encrypt = des1.encrypt(msg1);
-//            System.out.println("加密后的字符：" + encrypt);
+            System.out.println("加密后的字符：" + encrypt);
             System.out.println("=====================================================");
             //解密
-            String msg2 = "9299dc24e7e8c3beff3d05bcec45f56898237bd82229110ecbd28c65302e8bdb9bdc2dd941650b3333e7be3ba77444118a655f4523aefe808aae9d72d5976d5168d61341987376d3b5215306d39bc9a9d5cb285ed630441952c27fd8a408dd1f7ced52fad2680dd3ae85b0194527923e86a52cfa88aba955ff09240eca15aa4035af2c05c6069653e4b2be0eaac1edf240f9f0fce79dd90f83b10742ab442b926b2302faf2ab3737";
+            String msg2 = "9299dc24e7e8c3beff3d05bcec45f56866489904fa298e3fcb0674c1e3b05d2dea8464e294502c3ce8036a87a47c7542c99732e90468e53bcbe0e5042904c4d4f5c3b390beb0736eddec85cc17ca2eeee9aa1035df149d264a41df7f8a63a1437a5a7a1f97b5a5e7f3c62e244929d5e5834cac844dfcf39933529029157c0aea94e909f3df8d0a3f56ae3cbee667d0e2b1dd2cceaed24450bf1da4309650177f0eac8db22af33f483ed251c812facfe4cadc4d7c82d5a963fce08da3291cf5e3321c5e5d9317f4f8";
             System.out.println("解密前的字符：" + msg2);
             String decrypt = des1.decrypt(msg2);
             System.out.println("解密后的字符：" + decrypt);
@@ -189,7 +215,7 @@ public class EncrypDES {
 
             String msg3 = "appid=&userid=28ede01431cd&text=%E4%BB%8A%E5%A4%A9%E5%A4%A9%E6%B0%94%E6%80%8E%E4%B9%88%E6%A0%B7&cmd=chat&location=%E6%B7%B1%E5%9C%B3%E5%B8%82";
 
-/*            String key = "inventec2017@#$%^&";
+/*          String key = "inventec2017@#$%^&";
 
             EncrypDES des2 = new EncrypDES(key);// 自定义密钥
 
@@ -203,6 +229,32 @@ public class EncrypDES {
             e.printStackTrace();
         }
 
+    }
+
+    public static String decode(String str) {
+        /* 使用默认密钥 */
+        try {
+            EncrypDES des1 = new EncrypDES();
+            String decrypt = des1.decrypt(str);
+            System.out.println(decrypt);
+            return decrypt;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String encode(String str) {
+        // 使用默认密钥
+        try {
+            EncrypDES des1 = new EncrypDES();
+            String encrypt = des1.encrypt(str);
+            System.out.println(encrypt);
+            return encrypt;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
